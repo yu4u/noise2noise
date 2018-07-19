@@ -5,7 +5,7 @@ This is an unofficial and partial Keras implementation of "Noise2Noise: Learning
 There are several things different from the original paper
 (but not a fatal problem to confirm the noise2noise training framework):
 - Training dataset (orignal: ImageNet, this repository: [2])
-- Model (original: RED30 [3], this repository: SEResNet [4])
+- Model (original: RED30 [3], this repository: SRResNet [4])
 
 ## Train Noise2Noise
 
