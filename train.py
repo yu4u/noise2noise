@@ -65,7 +65,7 @@ def main():
     callbacks = [
         LearningRateScheduler(schedule=Schedule(nb_epochs, lr)),
         ModelCheckpoint(str(output_path) + "/weights.{epoch:03d}-{loss:.3f}-{PSNR:.5f}.hdf5",
-                        monitor="PSNR",
+                        monitor="val_PSNR",
                         verbose=1,
                         mode="max",
                         save_best_only=True, )
