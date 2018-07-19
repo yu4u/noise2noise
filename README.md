@@ -1,11 +1,11 @@
 # Noise2Noise
 
-This is an unofficial and partial Keras implementation of "Noise2Noise: Learning Image Restoration without Clean Data [1]".
+This is an unofficial and partial Keras implementation of "Noise2Noise: Learning Image Restoration without Clean Data" [1].
 
 There are several things different from the original paper
-(but this is not a problem to confirm the noise2noise training framework):
-- training dataset (orignal: ImageNet, this repository: [2])
-- model (original: RED30 [3], this repository: SEResNet [4])
+(but not a fatal problem to confirm the noise2noise training framework):
+- Training dataset (orignal: ImageNet, this repository: [2])
+- Model (original: RED30 [3], this repository: SEResNet [4])
 
 ## Train Noise2Noise
 
@@ -24,15 +24,16 @@ cd ..
 ### Train Model
 
 ```bash
-python3 train.py --image_dir dataset/train_data/291 --test_dir dataset/Set5
+python3 train.py --image_dir dataset/291 --test_dir dataset/Set5
 ```
 
 ### TODOs
 
 - [ ] Compare (noise, clean) training and (noise, noise) training
+- [ ] Add different noise models
 - [ ] Write readme
 
-# References
+## References
 
 [1] J. Lehtinen, J. Munkberg, J. Hasselgren, S. Laine, T. Karras, M. Aittala, 
 T. Aila, "Noise2Noise: Learning Image Restoration without Clean Data," in Proc. of ICML, 2018.
