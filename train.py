@@ -76,7 +76,7 @@ def main():
                         monitor="val_PSNR",
                         verbose=1,
                         mode="max",
-                        save_best_only=True, )
+                        save_best_only=True)
     ]
 
     hist = model.fit_generator(generator=generator,
