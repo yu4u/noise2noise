@@ -43,9 +43,9 @@ def get_args():
     parser.add_argument("--output_path", type=str, default="checkpoints",
                         help="checkpoint dir")
     parser.add_argument("--source_noise_model", type=str, default="gaussian,0,50",
-                        help="checkpoint dir")
+                        help="noise model for source images")
     parser.add_argument("--target_noise_model", type=str, default="gaussian,25,25",
-                        help="checkpoint dir")
+                        help="noise model for target images")
     args = parser.parse_args()
 
     return args
