@@ -5,6 +5,7 @@ from keras.callbacks import LearningRateScheduler, ModelCheckpoint
 from keras.optimizers import Adam
 from model import get_srresnet_model, PSNR
 from generator import NoisyImageGenerator, ValGenerator
+from noise_model import get_noise_model
 
 
 class Schedule:
@@ -41,6 +42,10 @@ def get_args():
                         help="steps per epoch")
     parser.add_argument("--output_path", type=str, default="checkpoints",
                         help="checkpoint dir")
+    parser.add_argument("--source_noise_model", type=str, default="gaussian,0,50",
+                        help="checkpoint dir")
+    parser.add_argument("--target_noise_model", type=str, default="gaussian,25,25",
+                        help="checkpoint dir")
     args = parser.parse_args()
 
     return args
@@ -59,8 +64,11 @@ def main():
     model = get_srresnet_model()
     opt = Adam(lr=lr)
     model.compile(optimizer=opt, loss="mse", metrics=[PSNR])
-    generator = NoisyImageGenerator(image_dir, batch_size=batch_size, image_size=image_size)
-    val_generator = ValGenerator(test_dir)
+    source_noise_model = get_noise_model(args.source_noise_model)
+    target_noise_model = get_noise_model(args.target_noise_model)
+    generator = NoisyImageGenerator(image_dir, source_noise_model, target_noise_model, batch_size=batch_size,
+                                    image_size=image_size)
+    val_generator = ValGenerator(test_dir, source_noise_model)
     output_path.mkdir(parents=True, exist_ok=True)
     callbacks = [
         LearningRateScheduler(schedule=Schedule(nb_epochs, lr)),
