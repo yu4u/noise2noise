@@ -7,6 +7,9 @@ There are several things different from the original paper
 - Training dataset (orignal: ImageNet, this repository: [2])
 - Model (original: RED30 [3], this repository: SRResNet [4])
 
+## Dependencies
+- Keras, TensorFlow, NumPy, OpenCV
+
 ## Train Noise2Noise
 
 ### Download Dataset
