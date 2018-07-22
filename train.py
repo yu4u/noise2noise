@@ -44,7 +44,9 @@ def get_args():
                         help="checkpoint dir")
     parser.add_argument("--source_noise_model", type=str, default="gaussian,0,50",
                         help="noise model for source images")
-    parser.add_argument("--target_noise_model", type=str, default="gaussian,25,25",
+    parser.add_argument("--target_noise_model", type=str, default="gaussian,0,50",
+                        help="noise model for target images")
+    parser.add_argument("--val_noise_model", type=str, default="gaussian,25,25",
                         help="noise model for target images")
     args = parser.parse_args()
 
@@ -66,9 +68,10 @@ def main():
     model.compile(optimizer=opt, loss="mse", metrics=[PSNR])
     source_noise_model = get_noise_model(args.source_noise_model)
     target_noise_model = get_noise_model(args.target_noise_model)
+    val_noise_model = get_noise_model(args.val_noise_model)
     generator = NoisyImageGenerator(image_dir, source_noise_model, target_noise_model, batch_size=batch_size,
                                     image_size=image_size)
-    val_generator = ValGenerator(test_dir, source_noise_model)
+    val_generator = ValGenerator(test_dir, val_noise_model)
     output_path.mkdir(parents=True, exist_ok=True)
     callbacks = [
         LearningRateScheduler(schedule=Schedule(nb_epochs, lr)),

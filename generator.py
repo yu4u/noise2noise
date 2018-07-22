@@ -44,14 +44,14 @@ class NoisyImageGenerator(Sequence):
 
 
 class ValGenerator(Sequence):
-    def __init__(self, image_dir, source_noise_model):
+    def __init__(self, image_dir, val_noise_model):
         image_paths = list(Path(image_dir).glob("*.*"))
         self.image_num = len(image_paths)
         self.data = []
 
         for image_path in image_paths:
             y = cv2.imread(str(image_path))
-            x = source_noise_model(y)
+            x = val_noise_model(y)
             self.data.append([np.expand_dims(x, axis=0), np.expand_dims(y, axis=0)])
 
     def __len__(self):
