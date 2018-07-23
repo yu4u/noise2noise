@@ -65,6 +65,20 @@ val_PSNR.png:
 From the above result, I confirm that we can train denoising model using noisy targets
 but it is not comparable to the model trained using clean targets.
 
+See denoising result by:
+
+```bash
+python3 test_model.py --weight_file [trained_model_path] --image_dir dataset/Set14
+```
+
+Denoising result by clean target model (left to right: original, degraded image, denoised image):
+
+<img src="result/baby_GT_clean.png" width="800px">
+
+Denoising result by gaussian target model:
+
+<img src="result/baby_GT_gaussian.png" width="800px">
+
 
 ### TODOs
 
