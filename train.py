@@ -40,6 +40,8 @@ def get_args():
                         help="learning rate")
     parser.add_argument("--steps", type=int, default=1000,
                         help="steps per epoch")
+    parser.add_argument("--loss", type=str, default="mse",
+                        help="loss; mse' or 'mae' is expected")
     parser.add_argument("--output_path", type=str, default="checkpoints",
                         help="checkpoint dir")
     parser.add_argument("--source_noise_model", type=str, default="gaussian,0,50",
@@ -62,10 +64,11 @@ def main():
     nb_epochs = args.nb_epochs
     lr = args.lr
     steps = args.steps
+    loss_type = args.loss
     output_path = Path(__file__).resolve().parent.joinpath(args.output_path)
     model = get_srresnet_model()
     opt = Adam(lr=lr)
-    model.compile(optimizer=opt, loss="mse", metrics=[PSNR])
+    model.compile(optimizer=opt, loss=loss_type, metrics=[PSNR])
     source_noise_model = get_noise_model(args.source_noise_model)
     target_noise_model = get_noise_model(args.target_noise_model)
     val_noise_model = get_noise_model(args.val_noise_model)
