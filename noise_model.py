@@ -27,6 +27,7 @@ def get_noise_model(noise_type="gaussian,0,50"):
         max_occupancy = int(tokens[2])
 
         def add_text(img):
+            img = img.copy()
             h, w, _ = img.shape
             font = cv2.FONT_HERSHEY_SIMPLEX
             img_for_cnt = np.zeros((h, w), np.uint8)
