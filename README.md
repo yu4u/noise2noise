@@ -36,7 +36,7 @@ python3 train.py --image_dir dataset/291 --test_dir dataset/Set14 --image_size 1
 
 Please see `python3 train.py -h` for optional arguments.
 
-### Noise models
+### Noise Models
 Using `source_noise_model`, `target_noise_model`, and `val_noise_model` arguments,
 arbitrary noise models can be set for source images, target images, and validatoin images respectively.
 Default values are taken from the experiment in [1].
@@ -48,7 +48,7 @@ Default values are taken from the experiment in [1].
 - Text insertion (TODO)
 
 ### Results
-Plot training history by:
+#### Plot training history
 
 ```bash
 python3 plot_history.py --input1 gaussian --input2 clean
@@ -65,7 +65,7 @@ val_PSNR.png:
 From the above result, I confirm that we can train denoising model using noisy targets
 but it is not comparable to the model trained using clean targets.
 
-See denoising result by:
+#### Check denoising result
 
 ```bash
 python3 test_model.py --weight_file [trained_model_path] --image_dir dataset/Set14
