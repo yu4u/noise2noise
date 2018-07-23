@@ -27,12 +27,48 @@ cd ..
 ### Train Model
 
 ```bash
-python3 train.py --image_dir dataset/291 --test_dir dataset/Set5
+# train model using (noise, noise) pairs (noise2noise)
+python3 train.py --image_dir dataset/291 --test_dir dataset/Set14 --image_size 128 --batch_size 8 --lr 0.001 --output_path gaussian
+
+# train model using (noise, clean) paris (standard training)
+python3 train.py --image_dir dataset/291 --test_dir dataset/Set14 --image_size 128 --batch_size 8 --lr 0.001 --target_noise_model clean --output_path clean
 ```
+
+Please see `python3 train.py -h` for optional arguments.
+
+### Noise models
+Using `source_noise_model`, `target_noise_model`, and `val_noise_model` arguments,
+arbitrary noise models can be set for source images, target images, and validatoin images respectively.
+Default values are taken from the experiment in [1].
+
+- Gaussian noise
+  - gaussian,min_stddev,max_stddev (e.g. gaussian,0,50)
+- Clean target
+  - clean
+- Text insertion (TODO)
+
+### Results
+Plot training history by:
+
+```bash
+python3 plot_history.py --input1 gaussian --input2 clean
+```
+
+val_loss.png:
+
+<img src="result/val_loss.png" width="480px">
+
+val_PSNR.png:
+
+<img src="result/val_PSNR.png" width="480px">
+
+From the above result, I confirm that we can train denoising model using noisy targets
+but it is not comparable to the model trained using clean targets.
+
 
 ### TODOs
 
-- [ ] Compare (noise, clean) training and (noise, noise) training
+- [x] Compare (noise, clean) training and (noise, noise) training
 - [ ] Add different noise models
 - [ ] Write readme
 
