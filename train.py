@@ -47,7 +47,7 @@ def get_args():
     parser.add_argument("--target_noise_model", type=str, default="gaussian,0,50",
                         help="noise model for target images")
     parser.add_argument("--val_noise_model", type=str, default="gaussian,25,25",
-                        help="noise model for target images")
+                        help="noise model for validation source images")
     args = parser.parse_args()
 
     return args
