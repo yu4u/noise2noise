@@ -45,7 +45,14 @@ Default values are taken from the experiment in [1].
   - gaussian,min_stddev,max_stddev (e.g. gaussian,0,50)
 - Clean target
   - clean
-- Text insertion (TODO)
+- Text insertion
+  - text,min_occupancy,max_occupancy (e.g. text,0,50)
+
+You can see how these noise models work by:
+
+```bash
+python3 noise_model.py --noise_model text,0,50
+```
 
 ### Results
 #### Plot training history
@@ -54,6 +61,7 @@ Default values are taken from the experiment in [1].
 python3 plot_history.py --input1 gaussian --input2 clean
 ```
 
+##### Gaussian noise
 val_loss.png:
 
 <img src="result/val_loss.png" width="480px">
@@ -65,26 +73,45 @@ val_PSNR.png:
 From the above result, I confirm that we can train denoising model using noisy targets
 but it is not comparable to the model trained using clean targets.
 
+##### Text insertion
+val_loss.png:
+
+<img src="result/val_loss_text.png" width="480px">
+
+val_PSNR.png:
+
+<img src="result/val_PSNR_text.png" width="480px">
+
 #### Check denoising result
 
 ```bash
 python3 test_model.py --weight_file [trained_model_path] --image_dir dataset/Set14
 ```
 
+##### Gaussian noise
 Denoising result by clean target model (left to right: original, degraded image, denoised image):
 
 <img src="result/baby_GT_clean.png" width="800px">
 
-Denoising result by gaussian target model:
+Denoising result by noise target model:
 
 <img src="result/baby_GT_gaussian.png" width="800px">
+
+##### Text insertion
+Denoising result by clean target model
+
+<img src="result/baby_GT_text_clean.png" width="800px">
+
+Denoising result by noise target model:
+
+<img src="result/baby_GT_text_noise.png" width="800px">
 
 
 ### TODOs
 
 - [x] Compare (noise, clean) training and (noise, noise) training
-- [ ] Add different noise models
-- [ ] Write readme
+- [x] Add different noise models
+- [x] Write readme
 
 ## References
 
