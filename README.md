@@ -26,12 +26,24 @@ cd ..
 
 ### Train Model
 
+#### Train with Gaussian noise
 ```bash
 # train model using (noise, noise) pairs (noise2noise)
 python3 train.py --image_dir dataset/291 --test_dir dataset/Set14 --image_size 128 --batch_size 8 --lr 0.001 --output_path gaussian
 
 # train model using (noise, clean) paris (standard training)
 python3 train.py --image_dir dataset/291 --test_dir dataset/Set14 --image_size 128 --batch_size 8 --lr 0.001 --target_noise_model clean --output_path clean
+```
+
+
+#### Train with text insertion
+
+```bash
+# train model using (noise, noise) pairs (noise2noise)
+python3 train.py --image_dir dataset/291 --test_dir dataset/Set14 --image_size 128 --batch_size 8 --lr 0.001 --source_noise_model text,0,50 --target_noise_model text,0,50 --val_noise_model text,25,25 --loss mae --output_path text_noise
+
+# train model using (noise, clean) paris (standard training)
+python3 train.py --image_dir dataset/291 --test_dir dataset/Set14 --image_size 128 --batch_size 8 --lr 0.001 --source_noise_model text,0,50 --target_noise_model clean --val_noise_model text,25,25 --loss mae --output_path text_clean
 ```
 
 Please see `python3 train.py -h` for optional arguments.
@@ -62,11 +74,8 @@ python3 plot_history.py --input1 gaussian --input2 clean
 ```
 
 ##### Gaussian noise
-val_loss.png:
-
 <img src="result/val_loss.png" width="480px">
 
-val_PSNR.png:
 
 <img src="result/val_PSNR.png" width="480px">
 
@@ -74,11 +83,8 @@ From the above result, I confirm that we can train denoising model using noisy t
 but it is not comparable to the model trained using clean targets.
 
 ##### Text insertion
-val_loss.png:
-
 <img src="result/val_loss_text.png" width="480px">
 
-val_PSNR.png:
 
 <img src="result/val_PSNR_text.png" width="480px">
 
