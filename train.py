@@ -3,7 +3,7 @@ import numpy as np
 from pathlib import Path
 from keras.callbacks import LearningRateScheduler, ModelCheckpoint
 from keras.optimizers import Adam
-from model import get_srresnet_model, PSNR
+from model import get_model, PSNR
 from generator import NoisyImageGenerator, ValGenerator
 from noise_model import get_noise_model
 
@@ -50,6 +50,8 @@ def get_args():
                         help="noise model for target images")
     parser.add_argument("--val_noise_model", type=str, default="gaussian,25,25",
                         help="noise model for validation source images")
+    parser.add_argument("--model", type=str, default="srresnet",
+                        help="model architecture ('srresnet' or 'unet')")
     args = parser.parse_args()
 
     return args
@@ -66,7 +68,7 @@ def main():
     steps = args.steps
     loss_type = args.loss
     output_path = Path(__file__).resolve().parent.joinpath(args.output_path)
-    model = get_srresnet_model()
+    model = get_model(args.model)
     opt = Adam(lr=lr)
     model.compile(optimizer=opt, loss=loss_type, metrics=[PSNR])
     source_noise_model = get_noise_model(args.source_noise_model)

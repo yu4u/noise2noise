@@ -5,7 +5,7 @@ This is an unofficial and partial Keras implementation of "Noise2Noise: Learning
 There are several things different from the original paper
 (but not a fatal problem to confirm the noise2noise training framework):
 - Training dataset (orignal: ImageNet, this repository: [2])
-- Model (original: RED30 [3], this repository: SRResNet [4])
+- Model (original: RED30 [3], this repository: SRResNet [4] or UNet)
 
 Updates
 - [Aug. 25, 2018] Add trained weights
@@ -28,6 +28,8 @@ cd ..
 ```
 
 ### Train Model
+Please see `python3 train.py -h` for optional arguments.
+
 
 #### Train with Gaussian noise
 ```bash
@@ -49,7 +51,9 @@ python3 train.py --image_dir dataset/291 --test_dir dataset/Set14 --image_size 1
 python3 train.py --image_dir dataset/291 --test_dir dataset/Set14 --image_size 128 --batch_size 8 --lr 0.001 --source_noise_model text,0,50 --target_noise_model clean --val_noise_model text,25,25 --loss mae --output_path text_clean
 ```
 
-Please see `python3 train.py -h` for optional arguments.
+##### Model architectures
+With `--model unet`, UNet model can be trained instead of SRResNet.
+
 
 ### Noise Models
 Using `source_noise_model`, `target_noise_model`, and `val_noise_model` arguments,
