@@ -2,7 +2,7 @@ import argparse
 import numpy as np
 from pathlib import Path
 import cv2
-from model import get_srresnet_model
+from model import get_model
 from noise_model import get_noise_model
 
 
@@ -11,6 +11,8 @@ def get_args():
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("--image_dir", type=str, required=True,
                         help="test image dir")
+    parser.add_argument("--model", type=str, default="srresnet",
+                        help="model architecture ('srresnet' or 'unet')")
     parser.add_argument("--weight_file", type=str, required=True,
                         help="trained weight file")
     parser.add_argument("--test_noise_model", type=str, default="gaussian,25,25",
@@ -31,7 +33,7 @@ def main():
     image_dir = args.image_dir
     weight_file = args.weight_file
     val_noise_model = get_noise_model(args.test_noise_model)
-    model = get_srresnet_model()
+    model = get_model(args.model)
     model.load_weights(weight_file)
 
     if args.output_dir:
@@ -43,6 +45,9 @@ def main():
     for image_path in image_paths:
         image = cv2.imread(str(image_path))
         h, w, _ = image.shape
+        image = image[:(h // 16) * 16, :(w // 16) * 16]  # for stride (maximum 16)
+        h, w, _ = image.shape
+
         out_image = np.zeros((h, w * 3, 3), dtype=np.uint8)
         noise_image = val_noise_model(image)
         pred = model.predict(np.expand_dims(noise_image, 0))
