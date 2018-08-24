@@ -7,6 +7,9 @@ There are several things different from the original paper
 - Training dataset (orignal: ImageNet, this repository: [2])
 - Model (original: RED30 [3], this repository: SRResNet [4])
 
+Updates
+- [Aug. 25, 2018] Add trained weights
+
 ## Dependencies
 - Keras, TensorFlow, NumPy, OpenCV
 
@@ -112,6 +115,16 @@ Denoising result by noise target model:
 
 <img src="result/baby_GT_text_noise.png" width="800px">
 
+
+#### Trained weights
+
+[Gaussian noise, noise target](https://github.com/yu4u/noise2noise/releases/download/v0.1/weights.040-87.447-29.13496_gauss_noise.hdf5)
+
+[Gaussian noise, clean target](https://github.com/yu4u/noise2noise/releases/download/v0.1/weights.056-66.803-30.57923_gauss_clean.hdf5)
+
+[Text insertion, noise target](https://github.com/yu4u/noise2noise/releases/download/v0.1/weights.057-4.796-27.68533_text_noise.hdf5)
+
+[Text insertion, clean target](https://github.com/yu4u/noise2noise/releases/download/v0.1/weights.056-4.172-28.07752_text_clean.hdf5)
 
 ### TODOs
 
