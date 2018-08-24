@@ -1,5 +1,5 @@
 from keras.models import Model
-from keras.layers import Input, Add, PReLU
+from keras.layers import Input, Add, PReLU, Conv2DTranspose, Concatenate, MaxPooling2D, UpSampling2D, Dropout
 from keras.layers.convolutional import Conv2D
 from keras.layers.normalization import BatchNormalization
 from keras import backend as K
@@ -18,6 +18,16 @@ def PSNR(y_true, y_pred):
     return 10.0 * tf_log10((max_pixel ** 2) / (K.mean(K.square(y_pred - y_true))))
 
 
+def get_model(model_name="srresnet"):
+    if model_name == "srresnet":
+        return get_srresnet_model()
+    elif model_name == "unet":
+        return get_unet_model(out_ch=3)
+    else:
+        raise ValueError("model_name should be 'srresnet'or 'unet'")
+
+
+# SRResNet
 def get_srresnet_model(input_channel_num=3, feature_dim=64, resunit_num=16):
     def _residual_block(inputs):
         x = Conv2D(feature_dim, (3, 3), padding="same", kernel_initializer="he_normal")(inputs)
@@ -46,8 +56,46 @@ def get_srresnet_model(input_channel_num=3, feature_dim=64, resunit_num=16):
     return model
 
 
+# UNet: code from https://github.com/pietz/unet-keras
+def get_unet_model(input_channel_num=3, out_ch=3, start_ch=64, depth=4, inc_rate=2., activation='relu',
+         dropout=0.5, batchnorm=False, maxpool=True, upconv=True, residual=False):
+    def _conv_block(m, dim, acti, bn, res, do=0):
+        n = Conv2D(dim, 3, activation=acti, padding='same')(m)
+        n = BatchNormalization()(n) if bn else n
+        n = Dropout(do)(n) if do else n
+        n = Conv2D(dim, 3, activation=acti, padding='same')(n)
+        n = BatchNormalization()(n) if bn else n
+
+        return Concatenate()([m, n]) if res else n
+
+    def _level_block(m, dim, depth, inc, acti, do, bn, mp, up, res):
+        if depth > 0:
+            n = _conv_block(m, dim, acti, bn, res)
+            m = MaxPooling2D()(n) if mp else Conv2D(dim, 3, strides=2, padding='same')(n)
+            m = _level_block(m, int(inc * dim), depth - 1, inc, acti, do, bn, mp, up, res)
+            if up:
+                m = UpSampling2D()(m)
+                m = Conv2D(dim, 2, activation=acti, padding='same')(m)
+            else:
+                m = Conv2DTranspose(dim, 3, strides=2, activation=acti, padding='same')(m)
+            n = Concatenate()([n, m])
+            m = _conv_block(n, dim, acti, bn, res)
+        else:
+            m = _conv_block(m, dim, acti, bn, res, do)
+
+        return m
+
+    i = Input(shape=(None, None, input_channel_num))
+    o = _level_block(i, start_ch, depth, inc_rate, activation, dropout, batchnorm, maxpool, upconv, residual)
+    o = Conv2D(out_ch, 1)(o)
+    model = Model(inputs=i, outputs=o)
+
+    return model
+
+
 def main():
-    model = get_srresnet_model()
+    # model = get_model()
+    model = get_model("unet")
     model.summary()
 
 
