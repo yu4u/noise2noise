@@ -89,6 +89,7 @@ python3 plot_history.py --input1 gaussian --input2 clean
 
 From the above result, I confirm that we can train denoising model using noisy targets
 but it is not comparable to the model trained using clean targets.
+If UNet is used, the result becomes 29.67 (noisy targets) vs. 30.14 (clean targets).
 
 ##### Text insertion
 <img src="result/val_loss_text.png" width="480px">
