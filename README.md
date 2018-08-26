@@ -5,7 +5,7 @@ This is an unofficial and partial Keras implementation of "Noise2Noise: Learning
 There are several things different from the original paper
 (but not a fatal problem to confirm the noise2noise training framework):
 - Training dataset (orignal: ImageNet, this repository: [2])
-- Model (original: RED30 [3], this repository: SRResNet [4] or UNet)
+- Model (original: RED30 [3], this repository: SRResNet [4] or UNet [5])
 
 Updates:
 - [Aug. 25, 2018] UNet model can be used in training
@@ -150,3 +150,5 @@ Restoration Using Convolutional Auto-Encoders with
 Symmetric Skip Connections," in Proc. of NIPS, 2016.
 
 [4] C. Ledig, et al., "Photo-Realistic Single Image Super-Resolution Using a Generative Adversarial Network," in Proc. of CVPR, 2017.
+
+[5] O. Ronneberger, P. Fischer, and T. Brox, "U-Net: Convolutional Networks for Biomedical Image Segmentation," in MICCAI, 2015.
