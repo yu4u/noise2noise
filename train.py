@@ -92,10 +92,7 @@ def main():
                                epochs=nb_epochs,
                                validation_data=val_generator,
                                verbose=1,
-                               callbacks=callbacks,
-                               use_multiprocessing=True,
-                               workers=8
-                               )
+                               callbacks=callbacks)
 
     np.savez(str(output_path.joinpath("history.npz")), history=hist.history)
 
