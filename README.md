@@ -3,7 +3,7 @@
 This is an unofficial and partial Keras implementation of "Noise2Noise: Learning Image Restoration without Clean Data" [1].
 
 There are several things different from the original paper
-(but not a fatal problem to confirm the noise2noise training framework):
+(but not a fatal problem to see how the noise2noise training framework works):
 - Training dataset (orignal: ImageNet, this repository: [2])
 - Model (original: RED30 [3], this repository: SRResNet [4] or UNet [5])
 
