@@ -49,6 +49,8 @@ def get_noise_model(noise_type="gaussian,0,50"):
                     break
             return img
         return add_text
+    else:
+        raise ValueError("noise_type should be 'gaussian', 'clean', or 'text'")
 
 
 def get_args():
