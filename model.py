@@ -11,9 +11,11 @@ class L0Loss:
     def __init__(self):
         self.gamma = K.variable(2.)
 
-    def calc_loss(self, y_true, y_pred):
-        loss = K.pow(K.abs(y_true - y_pred) + 1e-8, self.gamma)
-        return loss
+    def __call__(self):
+        def calc_loss(y_true, y_pred):
+            loss = K.pow(K.abs(y_true - y_pred) + 1e-8, self.gamma)
+            return loss
+        return calc_loss
 
 
 class UpdateAnnealingParameter(Callback):

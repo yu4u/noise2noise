@@ -75,8 +75,8 @@ def main():
     if loss_type == "l0":
         l0 = L0Loss()
         callbacks.append(UpdateAnnealingParameter(l0.gamma, nb_epochs, verbose=1))
-        loss_type = L0Loss.calc_loss
-        
+        loss_type = l0()
+
     model.compile(optimizer=opt, loss=loss_type, metrics=[PSNR])
     source_noise_model = get_noise_model(args.source_noise_model)
     target_noise_model = get_noise_model(args.target_noise_model)
