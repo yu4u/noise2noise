@@ -49,8 +49,19 @@ def get_noise_model(noise_type="gaussian,0,50"):
                     break
             return img
         return add_text
+    elif tokens[0] == "impulse":
+        min_occupancy = int(tokens[1])
+        max_occupancy = int(tokens[2])
+
+        def add_impulse_noise(img):
+            occupancy = np.random.uniform(min_occupancy, max_occupancy)
+            mask = np.random.binomial(size=img.shape, n=1, p=occupancy / 100)
+            noise = np.random.randint(256, size=img.shape)
+            img = img * (1 - mask) + noise * mask
+            return img.astype(np.uint8)
+        return add_impulse_noise
     else:
-        raise ValueError("noise_type should be 'gaussian', 'clean', or 'text'")
+        raise ValueError("noise_type should be 'gaussian', 'clean', 'text', or 'impulse'")
 
 
 def get_args():
@@ -71,7 +82,8 @@ def main():
 
     while True:
         image = np.ones((image_size, image_size, 3), dtype=np.uint8) * 128
-        cv2.imshow("noise image", noise_model(image))
+        noisy_image = noise_model(image)
+        cv2.imshow("noise image", noisy_image)
         key = cv2.waitKey(-1)
 
         # "q": quit

@@ -8,6 +8,7 @@ There are several things different from the original paper
 - Model (original: RED30 [3], this repository: SRResNet [4] or UNet [5])
 
 Updates:
+- [Sep. 21, 2018] Random-valued impulse noise model is added
 - [Aug. 25, 2018] UNet model can be used in training
 - [Aug. 25, 2018] Add trained weights
 
@@ -67,11 +68,13 @@ Default values are taken from the experiment in [1].
   - clean
 - Text insertion
   - text,min_occupancy,max_occupancy (e.g. text,0,50)
+- Random-valued impulse noise
+  - impulse,min_occupancy,max_occupancy (e.g. impulse,0,50)
 
 You can see how these noise models work by:
 
 ```bash
-python3 noise_model.py --noise_model text,0,50
+python3 noise_model.py --noise_model text,0,95
 ```
 
 ### Results
