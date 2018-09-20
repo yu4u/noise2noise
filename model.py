@@ -2,8 +2,33 @@ from keras.models import Model
 from keras.layers import Input, Add, PReLU, Conv2DTranspose, Concatenate, MaxPooling2D, UpSampling2D, Dropout
 from keras.layers.convolutional import Conv2D
 from keras.layers.normalization import BatchNormalization
+from keras.callbacks import Callback
 from keras import backend as K
 import tensorflow as tf
+
+
+class L0Loss:
+    def __init__(self):
+        self.gamma = K.variable(2.)
+
+    def calc_loss(self, y_true, y_pred):
+        loss = K.pow(K.abs(y_true - y_pred) + 1e-8, self.gamma)
+        return loss
+
+
+class UpdateAnnealingParameter(Callback):
+    def __init__(self, gamma, nb_epochs, verbose=0):
+        super(UpdateAnnealingParameter, self).__init__()
+        self.gamma = gamma
+        self.nb_epochs = nb_epochs
+        self.verbose = verbose
+
+    def on_epoch_begin(self, epoch, logs=None):
+        new_gamma = 2.0 * (self.nb_epochs - epoch) / self.nb_epochs
+        K.set_value(self.gamma, new_gamma)
+
+        if self.verbose > 0:
+            print('\nEpoch %05d: UpdateAnnealingParameter reducing gamma to %s.' % (epoch + 1, new_gamma))
 
 
 def tf_log10(x):

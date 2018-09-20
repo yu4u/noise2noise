@@ -3,7 +3,7 @@ import numpy as np
 from pathlib import Path
 from keras.callbacks import LearningRateScheduler, ModelCheckpoint
 from keras.optimizers import Adam
-from model import get_model, PSNR
+from model import get_model, PSNR, L0Loss, UpdateAnnealingParameter
 from generator import NoisyImageGenerator, ValGenerator
 from noise_model import get_noise_model
 
@@ -70,6 +70,13 @@ def main():
     output_path = Path(__file__).resolve().parent.joinpath(args.output_path)
     model = get_model(args.model)
     opt = Adam(lr=lr)
+    callbacks = []
+
+    if loss_type == "l0":
+        l0 = L0Loss()
+        callbacks.append(UpdateAnnealingParameter(l0.gamma, nb_epochs, verbose=1))
+        loss_type = L0Loss.calc_loss
+        
     model.compile(optimizer=opt, loss=loss_type, metrics=[PSNR])
     source_noise_model = get_noise_model(args.source_noise_model)
     target_noise_model = get_noise_model(args.target_noise_model)
@@ -78,14 +85,12 @@ def main():
                                     image_size=image_size)
     val_generator = ValGenerator(test_dir, val_noise_model)
     output_path.mkdir(parents=True, exist_ok=True)
-    callbacks = [
-        LearningRateScheduler(schedule=Schedule(nb_epochs, lr)),
-        ModelCheckpoint(str(output_path) + "/weights.{epoch:03d}-{val_loss:.3f}-{val_PSNR:.5f}.hdf5",
-                        monitor="val_PSNR",
-                        verbose=1,
-                        mode="max",
-                        save_best_only=True)
-    ]
+    callbacks.append(LearningRateScheduler(schedule=Schedule(nb_epochs, lr)))
+    callbacks.append(ModelCheckpoint(str(output_path) + "/weights.{epoch:03d}-{val_loss:.3f}-{val_PSNR:.5f}.hdf5",
+                                     monitor="val_PSNR",
+                                     verbose=1,
+                                     mode="max",
+                                     save_best_only=True))
 
     hist = model.fit_generator(generator=generator,
                                steps_per_epoch=steps,
