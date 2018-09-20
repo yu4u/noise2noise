@@ -8,7 +8,7 @@ There are several things different from the original paper
 - Model (original: RED30 [3], this repository: SRResNet [4] or UNet [5])
 
 Updates:
-- [Sep. 21, 2018] Random-valued impulse noise model is added
+- [Sep. 21, 2018] Random-valued impulse noise model and L0 loss were added
 - [Aug. 25, 2018] UNet model can be used in training
 - [Aug. 25, 2018] Add trained weights
 
@@ -51,6 +51,16 @@ python3 train.py --image_dir dataset/291 --test_dir dataset/Set14 --image_size 1
 
 # train model using (noise, clean) paris (standard training)
 python3 train.py --image_dir dataset/291 --test_dir dataset/Set14 --image_size 128 --batch_size 8 --lr 0.001 --source_noise_model text,0,50 --target_noise_model clean --val_noise_model text,25,25 --loss mae --output_path text_clean
+```
+
+#### Train with random-valued impulse noise
+
+```bash
+# train model using (noise, noise) pairs (noise2noise)
+python3 train.py --image_dir dataset/291 --test_dir dataset/Set14 --image_size 128 --batch_size 8 --lr 0.001 --source_noise_model impulse,0,95 --target_noise_model impulse,0,95 --val_noise_model impulse,70,70 --loss l0 --output_path impulse_noise
+
+# train model using (noise, clean) paris (standard training)
+python3 train.py --image_dir dataset/291 --test_dir dataset/Set14 --image_size 128 --batch_size 8 --lr 0.001 --source_noise_model impulse,0,95 --target_noise_model clean --val_noise_model impulse,70,70 --loss l0 --output_path impulse_clean
 ```
 
 ##### Model architectures
