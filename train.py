@@ -41,7 +41,7 @@ def get_args():
     parser.add_argument("--steps", type=int, default=1000,
                         help="steps per epoch")
     parser.add_argument("--loss", type=str, default="mse",
-                        help="loss; mse' or 'mae' is expected")
+                        help="loss; mse', 'mae', or 'l0' is expected")
     parser.add_argument("--output_path", type=str, default="checkpoints",
                         help="checkpoint dir")
     parser.add_argument("--source_noise_model", type=str, default="gaussian,0,50",

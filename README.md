@@ -110,6 +110,13 @@ If UNet is used, the result becomes 29.67 (noisy targets) vs. 30.14 (clean targe
 
 <img src="result/val_PSNR_text.png" width="480px">
 
+#### Random-valued impulse noise
+<img src="result/val_loss_impulse.png" width="480px">
+
+
+<img src="result/val_PSNR_impulse.png" width="480px">
+
+
 #### Check denoising result
 
 ```bash
@@ -134,6 +141,15 @@ Denoising result by noise target model:
 
 <img src="result/baby_GT_text_noise.png" width="800px">
 
+##### Random-valued impulse noise
+Denoising result by clean target model
+
+<img src="result/baby_GT_impulse_clean.png" width="800px">
+
+Denoising result by noise target model:
+
+<img src="result/baby_GT_impulse_noise.png" width="800px">
+
 
 #### Trained weights
 
@@ -144,6 +160,10 @@ Denoising result by noise target model:
 [Text insertion, noise target](https://github.com/yu4u/noise2noise/releases/download/v0.1/weights.057-4.796-27.68533_text_noise.hdf5)
 
 [Text insertion, clean target](https://github.com/yu4u/noise2noise/releases/download/v0.1/weights.056-4.172-28.07752_text_clean.hdf5)
+
+[Random-valued impulse noise, noise target](https://github.com/yu4u/noise2noise/releases/download/v0.1/weights.047-2.317-24.30238_impulse_noise.hdf5)
+
+[Random-valued impulse noise, clean target](https://github.com/yu4u/noise2noise/releases/download/v0.1/weights.038-4.547-24.81654_impulse_clean.hdf5)
 
 ### TODOs
 
