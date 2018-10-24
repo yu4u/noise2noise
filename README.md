@@ -29,6 +29,8 @@ unzip test_data.zip
 cd ..
 ```
 
+Any dataset can be used in training and validation instead of the above dataset.
+
 ### Train Model
 Please see `python3 train.py -h` for optional arguments.
 
@@ -105,6 +107,26 @@ If UNet is used, the result becomes 29.67 (noisy targets) vs. 30.14 (clean targe
 ```bash
 python3 test_model.py --weight_file [trained_model_path] --image_dir dataset/Set14
 ```
+
+The detailed options are:
+
+```bash
+optional arguments:
+  -h, --help            show this help message and exit
+  --image_dir IMAGE_DIR
+                        test image dir (default: None)
+  --model MODEL         model architecture ('srresnet' or 'unet') (default:
+                        srresnet)
+  --weight_file WEIGHT_FILE
+                        trained weight file (default: None)
+  --test_noise_model TEST_NOISE_MODEL
+                        noise model for test images (default: gaussian,25,25)
+  --output_dir OUTPUT_DIR
+                        if set, save resulting images otherwise show result
+                        using imshow (default: None)
+```
+This script adds noise using `test_noise_model` to each image in `image_dir` and performs denoising.
+If you want to perform denoising to already noisy images, use `--test_noise_model clean`.
 
 ##### Gaussian noise
 Denoising result by clean target model (left to right: original, degraded image, denoised image):
