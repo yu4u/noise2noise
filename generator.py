@@ -34,8 +34,8 @@ class NoisyImageGenerator(Sequence):
                 i = np.random.randint(h - image_size + 1)
                 j = np.random.randint(w - image_size + 1)
                 clean_patch = image[i:i + image_size, j:j + image_size]
-                x[sample_id] = self.source_noise_model(clean_patch)
                 y[sample_id] = self.target_noise_model(clean_patch)
+                x[sample_id] = self.source_noise_model(y[sample_id])
 
                 sample_id += 1
 
