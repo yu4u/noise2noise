@@ -7,7 +7,7 @@ from keras.utils import Sequence
 
 class NoisyImageGenerator(Sequence):
     def __init__(self, image_dir, source_noise_model, target_noise_model, batch_size=32, image_size=64):
-        image_suffixes = (".jpeg", ".jpg", ".png", "bmp")
+        image_suffixes = (".jpeg", ".jpg", ".png", ".bmp")
         self.image_paths = [p for p in Path(image_dir).glob("**/*") if p.suffix.lower() in image_suffixes]
         self.source_noise_model = source_noise_model
         self.target_noise_model = target_noise_model
@@ -49,7 +49,7 @@ class NoisyImageGenerator(Sequence):
 
 class ValGenerator(Sequence):
     def __init__(self, image_dir, val_noise_model):
-        image_suffixes = (".jpeg", ".jpg", ".png", "bmp")
+        image_suffixes = (".jpeg", ".jpg", ".png", ".bmp")
         image_paths = [p for p in Path(image_dir).glob("**/*") if p.suffix.lower() in image_suffixes]
         self.image_num = len(image_paths)
         self.data = []
