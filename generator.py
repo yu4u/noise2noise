@@ -7,12 +7,16 @@ from keras.utils import Sequence
 
 class NoisyImageGenerator(Sequence):
     def __init__(self, image_dir, source_noise_model, target_noise_model, batch_size=32, image_size=64):
-        self.image_paths = list(Path(image_dir).glob("*.jpg"))
+        image_suffixes = (".jpeg", ".jpg", ".png", "bmp")
+        self.image_paths = [p for p in Path(image_dir).glob("**/*") if p.suffix.lower() in image_suffixes]
         self.source_noise_model = source_noise_model
         self.target_noise_model = target_noise_model
         self.image_num = len(self.image_paths)
         self.batch_size = batch_size
         self.image_size = image_size
+
+        if self.image_num == 0:
+            raise ValueError("image dir '{}' does not include any image".format(image_dir))
 
     def __len__(self):
         return self.image_num // self.batch_size
@@ -45,9 +49,13 @@ class NoisyImageGenerator(Sequence):
 
 class ValGenerator(Sequence):
     def __init__(self, image_dir, val_noise_model):
-        image_paths = list(Path(image_dir).glob("*.*"))
+        image_suffixes = (".jpeg", ".jpg", ".png", "bmp")
+        image_paths = [p for p in Path(image_dir).glob("**/*") if p.suffix.lower() in image_suffixes]
         self.image_num = len(image_paths)
         self.data = []
+
+        if self.image_num == 0:
+            raise ValueError("image dir '{}' does not include any image".format(image_dir))
 
         for image_path in image_paths:
             y = cv2.imread(str(image_path))
