@@ -42,6 +42,8 @@ def get_args():
                         help="steps per epoch")
     parser.add_argument("--loss", type=str, default="mse",
                         help="loss; mse', 'mae', or 'l0' is expected")
+    parser.add_argument("--weight", type=str, default=None,
+                        help="weight file for restart")
     parser.add_argument("--output_path", type=str, default="checkpoints",
                         help="checkpoint dir")
     parser.add_argument("--source_noise_model", type=str, default="gaussian,0,50",
@@ -69,6 +71,10 @@ def main():
     loss_type = args.loss
     output_path = Path(__file__).resolve().parent.joinpath(args.output_path)
     model = get_model(args.model)
+
+    if args.weight is not None:
+        model.load_weights(args.weight)
+
     opt = Adam(lr=lr)
     callbacks = []
 
