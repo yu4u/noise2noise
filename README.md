@@ -68,6 +68,9 @@ python3 train.py --image_dir dataset/291 --test_dir dataset/Set14 --image_size 1
 ##### Model architectures
 With `--model unet`, UNet model can be trained instead of SRResNet.
 
+##### Resume training
+With `--weight path/to/weight/file`, training can be resumed with trained weights.
+
 
 ### Noise Models
 Using `source_noise_model`, `target_noise_model`, and `val_noise_model` arguments,
