@@ -4,6 +4,7 @@ from pathlib import Path
 import cv2
 from model import get_model
 from noise_model import get_noise_model
+import time
 
 
 def get_args():
@@ -29,6 +30,8 @@ def get_image(image):
 
 
 def main():
+    start = time.time()
+    img_count = 0
     args = get_args()
     image_dir = args.image_dir
     weight_file = args.weight_file
@@ -57,13 +60,16 @@ def main():
         out_image[:, w * 2:] = denoised_image
 
         if args.output_dir:
-            cv2.imwrite(str(output_dir.joinpath(image_path.name))[:-4] + ".png", out_image)
+            cv2.imwrite(str(output_dir) + "/compared/" + str(image_path.name)[:-4] + ".png", out_image)
+            cv2.imwrite(str(output_dir) + "/denoised/" + str(image_path.name)[:-4] + ".png", denoised_image)
+            img_count+=1
         else:
             cv2.imshow("result", out_image)
             key = cv2.waitKey(-1)
             # "q": quit
             if key == 113:
                 return 0
+    print('Time: {:05.2f}'.format(time.time() - start), 'seconds', 'Image:', img_count)
 
 
 if __name__ == '__main__':
