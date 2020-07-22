@@ -16,6 +16,8 @@ Updates:
 -  Python <= 3.7(Not Supported Version 3.8 or later) 
 -  2.1.2 <= Keras < 2.4, TensorFlow < 2.0, NumPy, OpenCV
 
+Notice : tensorflow requires version 1.x
+
 ## Train Noise2Noise
 
 ### Download Dataset
