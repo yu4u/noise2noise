@@ -13,7 +13,10 @@ Updates:
 - [Aug. 25, 2018] Add trained weights
 
 ## Dependencies
-- Keras >= 2.1.2, TensorFlow, NumPy, OpenCV
+-  Python <= 3.7(Not Supported Version 3.8 or later) 
+-  2.1.2 <= Keras < 2.4, TensorFlow < 2.0, NumPy, OpenCV
+
+Notice : tensorflow requires version 1.x
 
 ## Train Noise2Noise
 
